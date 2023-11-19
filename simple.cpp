@@ -3,12 +3,15 @@
 #include <fstream>
 #include <math.h>
 
-const std::size_t N = 9;			// число объектов 
+const std::size_t N = 9;			// число объектов, значений любого свойства
 const std::size_t SIDE = sqrt(N);	// размерность таблицы
-const std::size_t M = 4;			// число свойств
 const std::size_t LOG_N = 4;		// максимальное изменение индекса, отвечающего за бит свойства
+
+const std::size_t M = 4;			// число свойств
+
 const std::size_t VAR_NUM = N * M * LOG_N;  // 144;	// количество булевых переменных
 char var[VAR_NUM];					// массив булевых переменных
+
 bdd p1[N][N];						// свойство 1 название
 bdd p2[N][N];						// свойство 2 цена
 bdd p3[N][N];						// свойство 3 цвет
@@ -65,7 +68,6 @@ void fun(char* varset, int size)
 	build(varset, size, 0);
 }
 
-// Ограничения 1-ого типа
 void makeConditionsType1(bdd& my_bdd)
 {
 	my_bdd &= p3[1][6];
@@ -85,7 +87,7 @@ void makeConditionsType1(bdd& my_bdd)
 	//my_bdd &= p4[8][4]; // продвинутый уровень
 }
 
-// Ограничения 2-ого типа
+// соответствие между двумя свойствами какого-либо объекта
 void makeConditionsType2(bdd& my_bdd)
 {
 	for (std::size_t i = 0; i < N; i++)
@@ -101,7 +103,7 @@ void makeConditionsType2(bdd& my_bdd)
 	}
 }
 
-// Ограничения 3-его типа
+// Ограничение расположения объектов – расположение «слева» («справа»).
 void makeConditionsType3(bdd& my_bdd)
 {
 	for (std::size_t i = 0; i < N; i++)
@@ -120,8 +122,7 @@ void makeConditionsType3(bdd& my_bdd)
 	}
 }
 
-// Ограничения 4-ого типа
-
+// Ограничение расположения объектов – расположение «рядом» – дизъюнкция ограничений «слева» и «справа» типа 3.
 void makeConditionsType4(bdd& my_bdd)
 {
 	for (std::size_t i = 0; i < N; i++)
@@ -147,6 +148,7 @@ void makeConditionsType4(bdd& my_bdd)
 	}
 }
 
+// Параметры принимают значения только из заданных множеств (значение свойств должно быть меньше N)
 void limitValues(bdd& my_bdd)
 {
 	for (std::size_t i = 0; i < N; i++)
@@ -167,7 +169,7 @@ void limitValues(bdd& my_bdd)
 	}
 }
 
-// Ограничение количества разных свойств 8
+// У двух различных объектов значения любого параметра (свойства) не совпадают.
 void makeValuesUnique(bdd& my_bdd)
 {
 	for (std::size_t j = 0; j < N; j++)
