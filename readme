@@ -1,0 +1,9 @@
+./configure
+make
+make install
+
+export LD_LIBRARY_PATH=/usr/local/lib # (sudo find / -name libbdd.so.0)
+
+g++ simple.cpp -o simple -lbdd
+./simple
+
