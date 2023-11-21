@@ -78,13 +78,15 @@ void makeConditionsType1(bdd& my_bdd)
 	my_bdd &= p1[6][2];
 	my_bdd &= p3[5][1];
 
-	//Доп для простого уровня
-	my_bdd &= p3[6][7];
-	my_bdd &= p2[6][2];
-	my_bdd &= p4[6][8];
-	my_bdd &= p4[1][5];
-	//my_bdd &= p2[7][7]; // продвинутый уровень
-	//my_bdd &= p4[8][4]; // продвинутый уровень
+	// additional
+	my_bdd &= p3[2][7];
+	my_bdd &= p2[2][3];
+	my_bdd &= p4[4][0];
+	my_bdd &= p4[5][1];
+	my_bdd &= p4[6][3];
+	my_bdd &= p4[8][8];
+	my_bdd &= p4[7][4];
+	my_bdd &= p1[7][3]; 
 }
 
 // соответствие между двумя свойствами какого-либо объекта
@@ -96,10 +98,11 @@ void makeConditionsType2(bdd& my_bdd)
 		my_bdd &= !(p2[i][7] ^ p4[i][7]);
 		my_bdd &= !(p3[i][3] ^ p4[i][3]);
 		my_bdd &= !(p1[i][8] ^ p4[i][0]);
-
-		//Доп для простого уровня
 		my_bdd &= !(p1[i][6] ^ p2[i][4]);
+
+		// additional
 		my_bdd &= !(p1[i][5] ^ p2[i][7]);
+		my_bdd &= !(p1[i][3] ^ p2[i][5]);
 	}
 }
 
@@ -110,14 +113,14 @@ void makeConditionsType3(bdd& my_bdd)
 	{
 		if (i == 4 || i == 5 || i == 7 || i == 8)
 		{
-			my_bdd &= !(p1[i - 4][4] ^ p3[i][4]);
-			my_bdd &= !(p3[i - 4][0] ^ p1[i][5]);
-			my_bdd &= !(p4[i - 4][1] ^ p3[i][2]);
+			my_bdd &= !(p1[i - 2][4] ^ p3[i][4]);
+			my_bdd &= !(p3[i - 2][0] ^ p1[i][5]);
+			my_bdd &= !(p4[i - 2][1] ^ p3[i][2]);
 		}
-		if (i <= 5)
+		if (i <= 4 && i != 2)
 		{
-			my_bdd &= !(p1[i + 3][7] ^ p2[i][3]);
-			my_bdd &= !(p1[i + 3][8] ^ p4[i][6]);
+			my_bdd &= !(p1[i + 4][7] ^ p2[i][3]);
+			my_bdd &= !(p1[i + 4][8] ^ p4[i][6]);
 		}
 	}
 }
@@ -127,23 +130,15 @@ void makeConditionsType4(bdd& my_bdd)
 {
 	for (std::size_t i = 0; i < N; i++)
 	{
-		if (i == 4 || i == 5)
+		if (i == 3 || i == 4)
 		{
-			my_bdd &= !(p2[i - 4][8] ^ p2[i][0]) | !(p2[i + 3][8] ^ p2[i][0]);
-			my_bdd &= !(p3[i - 4][8] ^ p4[i][1]) | !(p3[i + 3][8] ^ p4[i][1]);
-			my_bdd &= !(p1[i - 4][2] ^ p2[i][5]) | !(p1[i + 3][2] ^ p2[i][5]);
+			my_bdd &= !(p2[i - 2][8] ^ p2[i][0]) | !(p2[i + 4][8] ^ p2[i][0]);
+			my_bdd &= !(p3[i - 2][8] ^ p4[i][1]) | !(p3[i + 4][8] ^ p4[i][1]);
+			my_bdd &= !(p1[i - 2][2] ^ p2[i][5]) | !(p1[i + 4][2] ^ p2[i][5]);
 		}
-		if (i <= 5)
+		if (i <= 4 && i != 2)
 		{
-			my_bdd &= !(p2[i + 3][8] ^ p2[i][0]);
-			my_bdd &= !(p3[i + 3][8] ^ p4[i][1]);
-			my_bdd &= !(p1[i + 3][2] ^ p2[i][5]);
-		}
-		if (i >= 7)
-		{
-			my_bdd &= !(p2[i - 4][8] ^ p2[i][0]);
-			my_bdd &= !(p3[i - 4][8] ^ p4[i][1]);
-			my_bdd &= !(p1[i - 4][2] ^ p2[i][5]);
+			my_bdd &= !(p2[i + 4][8] ^ p2[i][0]);
 		}
 	}
 }

@@ -9,3 +9,4 @@ cd proj
 g++ simple.cpp -o simple -lbdd
 ./simple
 
+g++ simple.cpp -o simple -lbdd && ./simple > res.txt && head res.txt
