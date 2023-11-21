@@ -86,7 +86,10 @@ void makeConditionsType1(bdd& my_bdd)
 	my_bdd &= p4[6][3];
 	my_bdd &= p4[8][8];
 	my_bdd &= p4[7][4];
-	my_bdd &= p1[7][3]; 
+	// my_bdd &= p1[7][3]; // 14
+	my_bdd &= p1[0][3]; // 10
+	// my_bdd &= p1[3][1]; // 36
+	// my_bdd &= p1[7][4]; // 24
 }
 
 // соответствие между двумя свойствами какого-либо объекта
@@ -111,7 +114,7 @@ void makeConditionsType3(bdd& my_bdd)
 {
 	for (std::size_t i = 0; i < N; i++)
 	{
-		if (i == 4 || i == 5 || i == 7 || i == 8)
+		if (i == 3 || i == 4 || i == 6 || i == 7)
 		{
 			my_bdd &= !(p1[i - 2][4] ^ p3[i][4]);
 			my_bdd &= !(p3[i - 2][0] ^ p1[i][5]);
@@ -136,7 +139,7 @@ void makeConditionsType4(bdd& my_bdd)
 			my_bdd &= !(p3[i - 2][8] ^ p4[i][1]) | !(p3[i + 4][8] ^ p4[i][1]);
 			my_bdd &= !(p1[i - 2][2] ^ p2[i][5]) | !(p1[i + 4][2] ^ p2[i][5]);
 		}
-		if (i <= 4 && i != 2)
+		if (i == 0 || i == 1)
 		{
 			my_bdd &= !(p2[i + 4][8] ^ p2[i][0]);
 		}
