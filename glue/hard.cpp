@@ -4,13 +4,12 @@
 #include <math.h>
 
 const std::size_t N = 9;			// число объектов, значений любого свойства
-const std::size_t SIDE = sqrt(N);	// размерность таблицы
-const std::size_t LOG_N = 4;		// максимальное изменение индекса, отвечающего за бит свойства
-
 const std::size_t M = 4;			// число свойств
 
+const std::size_t LOG_N = 4;		// максимальное изменение индекса, отвечающего за бит свойства
 const std::size_t VAR_NUM = N * M * LOG_N;  // 144;	// количество булевых переменных
 char var[VAR_NUM];					// массив булевых переменных
+const std::size_t SIDE = sqrt(N);	// размерность таблицы
 
 bdd p1[N][N];						// свойство 1 название
 bdd p2[N][N];						// свойство 2 цена
@@ -87,7 +86,7 @@ void makeConditionsType1(bdd& my_bdd)
 	my_bdd &= p4[8][8];
 	my_bdd &= p4[7][4];
 	// my_bdd &= p1[7][3]; // 14
-	my_bdd &= p1[0][3]; // 10
+	// my_bdd &= p1[0][3]; // 10
 	// my_bdd &= p1[3][1]; // 36
 	// my_bdd &= p1[7][4]; // 24
 }
@@ -147,7 +146,7 @@ void makeConditionsType4(bdd& my_bdd)
 			std::size_t left = i - SIDE + 1;
 			std::size_t right = i + SIDE + 1;
 			my_bdd &= !(p2[left][8] ^ p2[i][0]) | !(p2[right][8] ^ p2[i][0]);
-			my_bdd &= !(p3[left][8] ^ p4[i][1]) | !(p3[right][8] ^ p4[i][1]);
+			my_bdd &= !(p1[left][2] ^ p2[i][5]) | !(p1[right][2] ^ p2[i][5]);
 		}
 		if (i < SIDE - 1)
 		{
@@ -157,7 +156,7 @@ void makeConditionsType4(bdd& my_bdd)
 		if (i % SIDE == SIDE - 1 && i >= SIDE && i < N - SIDE) {
 			std::size_t left = i - 2 * SIDE + 1;
 			std::size_t right = i + 1;
-			my_bdd &= !(p1[left][2] ^ p2[i][5]) | !(p1[right][2] ^ p2[i][5]);
+			my_bdd &= !(p3[left][8] ^ p4[i][1]) | !(p3[right][8] ^ p4[i][1]);
 		}
 	}
 }
