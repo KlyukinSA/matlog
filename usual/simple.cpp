@@ -114,16 +114,18 @@ void makeConditionsType3(bdd& my_bdd)
 {
 	for (std::size_t i = 0; i < N; i++)
 	{
-		if (i == 3 || i == 4 || i == 6 || i == 7)
+		if (i % SIDE != SIDE - 1 && i >= SIDE)
 		{
-			my_bdd &= !(p1[i - 2][4] ^ p3[i][4]);
-			my_bdd &= !(p3[i - 2][0] ^ p1[i][5]);
-			my_bdd &= !(p4[i - 2][1] ^ p3[i][2]);
+			std::size_t pos = i - SIDE + 1;
+			my_bdd &= !(p1[pos][4] ^ p3[i][4]);
+			my_bdd &= !(p3[pos][0] ^ p1[i][5]);
+			my_bdd &= !(p4[pos][1] ^ p3[i][2]);
 		}
-		if (i <= 4 && i != 2)
+		if (i % SIDE != SIDE - 1 && i <= N - SIDE)
 		{
-			my_bdd &= !(p1[i + 4][7] ^ p2[i][3]);
-			my_bdd &= !(p1[i + 4][8] ^ p4[i][6]);
+			std::size_t pos = i + SIDE + 1;
+			my_bdd &= !(p1[pos][7] ^ p2[i][3]);
+			my_bdd &= !(p1[pos][8] ^ p4[i][6]);
 		}
 	}
 }
