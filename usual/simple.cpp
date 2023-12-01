@@ -137,16 +137,16 @@ void makeConditionsType4(bdd& my_bdd)
 	{
 		if (i % SIDE != SIDE - 1 && i >= SIDE && i < N - SIDE)
 		{
-			std::cout << i;
 			std::size_t left = i - SIDE + 1;
 			std::size_t right = i + SIDE + 1;
 			my_bdd &= !(p2[left][8] ^ p2[i][0]) | !(p2[right][8] ^ p2[i][0]);
 			my_bdd &= !(p3[left][8] ^ p4[i][1]) | !(p3[right][8] ^ p4[i][1]);
 			my_bdd &= !(p1[left][2] ^ p2[i][5]) | !(p1[right][2] ^ p2[i][5]);
 		}
-		if (i == 0 || i == 1)
+		if (i < SIDE - 1)
 		{
-			my_bdd &= !(p2[i + 4][8] ^ p2[i][0]);
+			std::size_t right = i + SIDE + 1;
+			my_bdd &= !(p2[right][8] ^ p2[i][0]);
 		}
 	}
 }
